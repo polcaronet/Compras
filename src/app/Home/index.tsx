@@ -9,11 +9,8 @@ export function Home() {
       <Image source={require("@/assets/logo.png")}
         style={styles.logo}
       />
-      
-    <Button  title="Entrar"/>
-    <Button  title="Criar conta"/>
-    <Button  title="Salvar"/>
-    <Button  title="Voltar"/>
+
+    <Button  title="Adicionar"/>
     </View>
   );
 }
