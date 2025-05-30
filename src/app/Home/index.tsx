@@ -1,13 +1,4 @@
-import {
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert
-} from "react-native"
-
-import { useState } from "react"
+import { Alert, FlatList, Image, Text, TouchableOpacity, View } from "react-native"
 
 import { styles } from "./styles"
 import { Button } from "@/components/Button"
@@ -15,27 +6,41 @@ import { Input } from "@/components/Input"
 import { Filter } from "@/components/Filter"
 import { FilterStatus } from "@/types/FilterStatus"
 import { Item } from "@/components/Item"
+import { useEffect, useState } from "react"
+import { itemsStorage, ItemStorage } from "@/storage/itemsStorage"
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 
-
 export function Home() {
   const [filter, setFilter] = useState(FilterStatus.PENDING)
-  const [description, setDescription] = useState('')
-  const [items, setItems] = useState<any>([])
+  const [description, setDescription] = useState("")
+  const [items, setItems] = useState<ItemStorage[]>([])
 
   function handleAdd() {
-     if(!description.trim()){
-      return Alert.alert('Adicionar', 'Informe a sua descrição para adicionar item.')
-     }
- 
-    const newItem = {
-      id: Math.random().toString(36).substring(2),
-      description,
-      status: FilterStatus.PENDING
+    if (!description.trim()) {
+      return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
     }
-   
- }
+
+    const newItem = {
+      id: Math.random().toString().substring(2),
+      description,
+      status: FilterStatus.PENDING,
+    }
+  }
+
+  async function getItems () {
+    try {
+      const response = await itemsStorage.get()
+      setItems(response)
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Erro", "Não foi possível filtrar os itens.")
+    }
+  }
+
+  useEffect(() => {
+    getItems()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -43,21 +48,21 @@ export function Home() {
 
       <View style={styles.form}
       >
-        <Input
-          placeholder="O que você precisa comprar?"
+        <Input 
+          placeholder="O que você precisa comprar?" 
           onChangeText={setDescription}
         />
-        <Button title="Adicionar" onPress={handleAdd}/>
+        <Button title="Adicionar" onPress={handleAdd} />
       </View>
 
       <View style={styles.content}>
         <View style={styles.header}>
           {FILTER_STATUS.map((status) => (
             <Filter
-              key={status}
-              status={status}
-              isActive={status === filter}
-              onPress={() => setFilter(status)}
+               key={status}
+               status={status} 
+               isActive={filter === status}
+               onPress={() => setFilter(status)} 
             />
           ))}
 
@@ -66,12 +71,12 @@ export function Home() {
           </TouchableOpacity>
         </View>
 
-        <FlatList
+        <FlatList 
           data={items}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Item
-              data={item}
+              data={item} 
               onStatus={() => console.log("mudar o status")}
               onRemove={() => console.log("remover")}
             />
