@@ -5,6 +5,7 @@ import { FilterStatus } from "@/types/FilterStatus";
 import { Filter } from "@/components/Filter";
 
 import { styles } from "./styles";
+import { Item } from "@/components/Item";
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE];
 
@@ -25,11 +26,15 @@ export function Home() {
             FILTER_STATUS.map((status) => (
               <Filter key={status} status={status} isActive />
             ))}
-            
+
           <TouchableOpacity style={styles.clearButton}>
             <Text style={styles.clearText}>Limpar</Text>
           </TouchableOpacity>
         </View>
+        <Item data={{ status: FilterStatus.DONE, description: 'Banana' }}
+          onStatus={() => console.log('Mudar o Status')}
+          onRemove={() => console.log('Remover')}
+        />
       </View>
     </View>
   );
