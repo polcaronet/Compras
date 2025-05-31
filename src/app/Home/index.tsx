@@ -31,7 +31,7 @@ export function Home() {
     await getItems()
   }
 
-  async function getItems() {
+  async function getItems () {
     try {
       const response = await itemsStorage.get()
       setItems(response)
@@ -51,8 +51,8 @@ export function Home() {
 
       <View style={styles.form}
       >
-        <Input
-          placeholder="O que você precisa comprar?"
+        <Input 
+          placeholder="O que você precisa comprar?" 
           onChangeText={setDescription}
         />
         <Button title="Adicionar" onPress={handleAdd} />
@@ -62,10 +62,10 @@ export function Home() {
         <View style={styles.header}>
           {FILTER_STATUS.map((status) => (
             <Filter
-              key={status}
-              status={status}
-              isActive={filter === status}
-              onPress={() => setFilter(status)}
+               key={status}
+               status={status} 
+               isActive={filter === status}
+               onPress={() => setFilter(status)} 
             />
           ))}
 
@@ -74,12 +74,12 @@ export function Home() {
           </TouchableOpacity>
         </View>
 
-        <FlatList
+        <FlatList 
           data={items}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Item
-              data={item}
+              data={item} 
               onStatus={() => console.log("mudar o status")}
               onRemove={() => console.log("remover")}
             />

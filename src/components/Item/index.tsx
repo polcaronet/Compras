@@ -1,19 +1,19 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { Trash2 } from "lucide-react-native";
-import { styles } from "./styles";
-import { StatusIcon } from "../StatusIcon";
-import { FilterStatus } from "@/types/FilterStatus";
+import { FilterStatus } from "@/types/FilterStatus"
+import { Text, TouchableOpacity, View } from "react-native"
+import { styles } from "./styles"
+import { StatusIcon } from "../StatusIcon"
+import { Trash2 } from "lucide-react-native"
 
 type ItemData = {
-  status: FilterStatus;
-  description: string;
-};
+  status: FilterStatus
+  description: string
+}
 
 type Props = {
-  data: ItemData;
-  onStatus: () => void;
-  onRemove: () => void;
-};
+  data: ItemData
+  onRemove: () => void
+  onStatus: () => void
+}
 
 export function Item({ data, onStatus, onRemove }: Props) {
   return (
@@ -21,12 +21,14 @@ export function Item({ data, onStatus, onRemove }: Props) {
       <TouchableOpacity activeOpacity={0.8} onPress={onStatus}>
         <StatusIcon status={data.status} />
       </TouchableOpacity>
+
       <Text style={styles.description}>
         {data.description}
       </Text>
-      <TouchableOpacity activeOpacity={0.8} onPress={onRemove}>
+
+      <TouchableOpacity onPress={onRemove}>
         <Trash2 size={18} color="#828282" />
       </TouchableOpacity>
     </View>
-  );
+  )
 }
