@@ -55,6 +55,31 @@ export function Home() {
     }
   }
 
+  function handleClear() {
+    Alert.alert("Limpar", "Deseja remover todos?", [
+      {
+        text: "Não",
+        style: "cancel"
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          onClear()
+        }
+      }
+    ])
+  }
+
+  async function onClear() {
+    try {
+      await itemsStorage.clear()
+      setItems([])
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Erro", "Não foi possível remover todos os itens.")
+    }
+  }
+
   useEffect(() => {
     itemsByStatus()
   }, [filter])
@@ -65,8 +90,8 @@ export function Home() {
 
       <View style={styles.form}
       >
-        <Input 
-          placeholder="O que você precisa comprar?" 
+        <Input
+          placeholder="O que você precisa comprar?"
           onChangeText={setDescription}
           value={description}
           multiline
@@ -79,24 +104,24 @@ export function Home() {
         <View style={styles.header}>
           {FILTER_STATUS.map((status) => (
             <Filter
-               key={status}
-               status={status} 
-               isActive={filter === status}
-               onPress={() => setFilter(status)} 
+              key={status}
+              status={status}
+              isActive={filter === status}
+              onPress={() => setFilter(status)}
             />
           ))}
 
-          <TouchableOpacity style={styles.clearButton}>
+          <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
             <Text style={styles.clearText}>Limpar</Text>
           </TouchableOpacity>
         </View>
 
-        <FlatList 
+        <FlatList
           data={items}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Item
-              data={item} 
+              data={item}
               onStatus={() => console.log("mudar o status")}
               onRemove={() => handleRemove(item.id)}
             />
