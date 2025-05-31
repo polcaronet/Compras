@@ -59,6 +59,8 @@ export function Home() {
           placeholder="O que você precisa comprar?" 
           onChangeText={setDescription}
           value={description}
+          multiline
+          textBreakStrategy="simple"
         />
         <Button title="Adicionar" onPress={handleAdd} />
       </View>

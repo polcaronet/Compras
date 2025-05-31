@@ -6,6 +6,9 @@ export function Input({ ...rest }: TextInputProps) {
     <TextInput 
       style={styles.container}
       placeholderTextColor="#74798B"
-      {...rest} />
-  )
+      multiline 
+      textBreakStrategy="simple" 
+      {...rest}
+    />
+  );
 }
